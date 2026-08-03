@@ -1,24 +1,19 @@
-use std::sync::Mutex;
+use std::{sync::RwLock, thread};
 use std::sync::Arc;
-use std::thread;
 
 fn main() {
     
-    let mut counter = Arc::new(Mutex::new(5));
-    let mut handles  = vec![];
+   let a = Arc::new(RwLock::new(10)); 
+    let b = Arc::clone(&a);
+    let c = Arc::clone(&a);
 
-    for _ in 0..10{
-        let counter = Arc::clone(&counter);
-        handles.push(thread::spawn(move ||{
-            let mut lock = counter.lock().unwrap();
-            *lock +=1;
-        }))
-    }
+   thread::spawn(move ||{
+   let b = b.read();
+   });
+   thread::spawn(move ||{
+   let mut b =  c.write().unwrap();
+   *b += 200;
+   });
 
-    for h in handles{
-        h.join().unwrap();
-    }
-    println!("{:?
-    }",counter);
-
+   println!("{:?}", a);
 }
