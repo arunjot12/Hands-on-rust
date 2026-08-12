@@ -1,4 +1,4 @@
-fn main() {
+pub fn run() {
     let a = String::from("arunjot");
 
     // Immutable borrow
@@ -12,7 +12,7 @@ fn main() {
     println!("d is {}", d);
 }
 
-fn reference(a: &String) {
+fn reference(a: &str) {
     println!("a is {}", a);
 }
 
